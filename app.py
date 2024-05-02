@@ -18,8 +18,11 @@ def predict():
 
    input = np.array([sl,sw,pl,pw])
    input = input.reshape(1,-1)
+   prediction = model.predict(input)
+   prediction = prediction.item()
 
-   return render_template('prediction.html',flower=flower)
+   return render_template('prediction.html',flower="The predicted species is '{}'.".format(prediction))
+
 
 if __name__ == '__main__':
      app.run()
