@@ -20,7 +20,7 @@ def predict():
    input = input.reshape(1,-1)
    
 
-   return render_template('prediction.html',flower="The predicted species is '{}'.".format(prediction))
+   return render_template('prediction.html',flower=flower)
 
 
 if __name__ == '__main__':
