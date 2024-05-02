@@ -17,9 +17,9 @@ def predict():
    pl=float(request.form['PL'])
    pw=float(request.form['PW'])
 
+   input=np.array([[sl,sw,pl,pw]])
    
-   
-   prediction = model.predict([[sl,sw,pl,pw]])
+   prediction = model.predict(input)
    
 
 
