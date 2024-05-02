@@ -3,7 +3,7 @@ import numpy as np
 app=Flask(__name__)
 import pickle
 
-model=pickle.load(open('model_new.pkl','rb'))
+model=pickle.load(open('model.pkl','rb'))
 
 
 @app.route('/')
@@ -11,12 +11,13 @@ def hello():
     return render_template('index.html')
 @app.route('/prediction',methods=['GET','POST'])
 def predict():
+ if request.method == 'POST':
    sl=float(request.form['SL'])
    sw=float(request.form['SW'])
    pl=float(request.form['PL'])
    pw=float(request.form['PW'])
 
-   input = np.array([sl,sw,pl,pw])
+   input = np.array([[sl,sw,pl,pw]])
    input = input.reshape(1,-1)
    
    prediction = model.predict(input)
