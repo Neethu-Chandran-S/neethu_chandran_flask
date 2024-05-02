@@ -17,11 +17,10 @@ def predict():
    pl=float(request.form['PL'])
    pw=float(request.form['PW'])
 
-   input = np.array([[sl,sw,pl,pw]])
-   input = input.reshape(1,-1)
    
-   prediction = model.predict(input)
-   prediction = prediction.item()
+   
+   prediction = model.predict([[sl,sw,pl,pw]])
+   
 
 
    return render_template('prediction.html',flower="The predicted species is '{}'.".format(prediction))
