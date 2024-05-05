@@ -1,30 +1,42 @@
 from flask import Flask,render_template,request
 import numpy as np
-import sklearn
-app=Flask(__name__)
-import pickle
+import pandas as pd
+from sklearn.datasets import load_iris
+from sklearn.model_selection import train_test_split
+from sklearn.ensemble import RandomForestClassifier
 
-model=pickle.load(open('model.pkl','rb'))
+
+app=Flask(__name__)
+iris=load_iris()
+X,y=iris.data,iris.target
+
+clf=RandomForestClassifier(n_estimators=100,random_state=42)
+clf.fit(X,y)
+
+
 
 
 @app.route('/')
-def hello():
+def index():
     return render_template('index.html')
-@app.route('/prediction',methods=['GET','POST'])
+
+@app.route('/prediction',methods=['POST'])
 def predict():
- if request.method == 'POST':
-   sl=float(request.form['SL'])
-   sw=float(request.form['SW'])
-   pl=float(request.form['PL'])
-   pw=float(request.form['PW'])
+ 
+  features=[float(request.form['SL']),
+           float(request.form['SW']),
+           float(request.form['PL']),
+           float(request.form['PW'])]
+ 
 
-   input=np.array([[sl,sw,pl,pw]])
    
-   prediction = model.predict(input)
+   
+  prediction = clf.predict([features])[0]
+  flower=iris.target_names[prediction]
    
 
 
-   return render_template('prediction.html',flower="The predicted species is '{}'.".format(prediction))
+  return render_template('prediction.html',flower=flower)
 
 if __name__ == '__main__':
      app.run()
